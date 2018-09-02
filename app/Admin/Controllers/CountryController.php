@@ -87,6 +87,7 @@ class CountryController extends Controller
                 return Config::$state_systems[$id];
             });
 
+
             $grid->created_at();
 
             $grid->filter(function ($filter) {
@@ -120,6 +121,7 @@ class CountryController extends Controller
             $form->radio('continent_id','大洲')->options(Config::$continents)->default(1);
             $form->radio('state_system','国家体制')->options(Config::$state_systems)->default(4);
             $form->text('short_name','名称');
+            //$form->select('capital','首都')->options();
             $form->text('full_name','全称');
             $form->text('short_name_en','英文简称');
             $form->text('code','代码');
