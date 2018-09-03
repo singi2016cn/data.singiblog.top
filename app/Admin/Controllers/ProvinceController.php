@@ -79,7 +79,7 @@ class ProvinceController extends Controller
 
             $grid->column('country.short_name','国家');
             $grid->column('region_id','大区')->display(function($id){
-                return Config::$regions[$id];
+                if ($id) return Config::$regions[$id];
             });
             $grid->column('name','名称');
             $grid->column('code','代码');
@@ -87,6 +87,14 @@ class ProvinceController extends Controller
             $grid->column('initial','大写首字母');
 
             $grid->created_at();
+
+            $grid->filter(function($filter){
+                $filter->equal('country_id')->select('/admin/api/countries_column_table_select');
+                $filter->like('name');
+                $filter->equal('code');
+                $filter->like('short_name');
+                $filter->equal('initial');
+            });
         });
     }
 

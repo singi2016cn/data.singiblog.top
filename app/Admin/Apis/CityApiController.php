@@ -12,4 +12,9 @@ class CityApiController extends Controller
     {
         return City::paginate(null, ['id', 'name as text']);
     }
+
+    public function citiesColumnTableSelect()
+    {
+        return City::select(['id','name as text'])->get();
+    }
 }

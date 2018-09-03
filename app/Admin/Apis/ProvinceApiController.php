@@ -12,4 +12,8 @@ class ProvinceApiController extends Controller
     {
         return Province::paginate(null, ['id', 'name as text']);
     }
+
+    public function provincesColumnTableSelect(){
+        return Province::select(['id','name as text'])->get();
+    }
 }

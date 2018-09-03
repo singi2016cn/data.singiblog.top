@@ -81,6 +81,12 @@ class CountyController extends Controller
             $grid->column('code','代码');
 
             $grid->created_at();
+
+            $grid->filter(function($filter){
+                $filter->equal('city_id')->select('/admin/api/cities_column_table_select');
+                $filter->like('name');
+                $filter->equal('code');
+            });
         });
     }
 

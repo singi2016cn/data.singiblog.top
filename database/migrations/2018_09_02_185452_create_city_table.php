@@ -15,7 +15,7 @@ class CreateCityTable extends Migration
     {
         Schema::create('city', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('province_id')->unique()->comment('省id');
+            $table->unsignedInteger('province_id')->comment('省id');
             $table->string('name')->comment('名称');
             $table->string('code')->comment('代码')->nullable();
             $table->timestamps();

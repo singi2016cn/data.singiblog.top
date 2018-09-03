@@ -1,6 +1,6 @@
 # ludata
 
-> 收集各类基础数据，为程序员调用做好准备
+> 收集数据，为调用做好准备
 
 # 数据提供方式
 
@@ -10,23 +10,23 @@
 
 > 如果还有其他需要，请提`issue`
 
-# 数据列表
+# 可用数据列表
+ 
+1. [中国省市县-JSON-2018](http://data.singiblog.top/frontend/index)
+
+> 数据来源：[中华人民共和国民政部](http://www.mca.gov.cn)
+
+
+# 数据收录对象
 
 - 国家 `country`
-- 省 `province`
-- 市 `city`
-- 县 `county`
-- 街道 `street`
-- 地铁线 `metro-line`
-- 地铁站 `metro-station`
+- 省市县街道 `province,city,county,street`
+- 地铁线路,站点 `metro-line,metro-station`
 - 机场 `airport`
 
-# TODO
+# 收录进度
 
-# 使用到的库
-
-- `laravel-admin`
-
+1. 中国省市县`+`
 
 # License
 

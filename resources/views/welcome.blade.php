@@ -7,7 +7,6 @@
 
         <title>{{ env('APP_NAME') }}</title>
 
-        <!-- Styles -->
         <style>
             html, body {
                 background-color: #fff;
@@ -80,7 +79,7 @@
                 </div>
 
                 <div class="links">
-                    <a href="{{ url('admin') }}">Admin</a>
+                    <a href="{{ route('frontend.index') }}">Home</a>
                     <a href="https://github.com/singi2016cn/data.singiblog.top">GitHub</a>
                 </div>
             </div>

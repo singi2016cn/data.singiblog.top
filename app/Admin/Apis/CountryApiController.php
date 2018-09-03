@@ -12,4 +12,9 @@ class CountryApiController extends Controller
     {
         return Country::paginate(null, ['id', 'short_name as text']);
     }
+
+    public function countriesColumnTableSelect()
+    {
+        return Country::select(['id','short_name as text'])->get();
+    }
 }

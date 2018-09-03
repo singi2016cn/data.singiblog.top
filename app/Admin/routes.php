@@ -20,6 +20,9 @@ Route::group([
 
 Route::middleware(['web','admin'])->name('admin.api.')->prefix('admin/api')->namespace('App\Admin\Apis')->group(function(){
     Route::get('countries_column','CountryApiController@countriesColumn')->name('countries_column');
+    Route::get('countries_column_table_select','CountryApiController@countriesColumnTableSelect')->name('countries_column_table_select');
     Route::get('provinces_column','ProvinceApiController@provincesColumn')->name('provinces_column');
+    Route::get('provinces_column_table_select','ProvinceApiController@provincesColumnTableSelect')->name('provinces_column_table_select');
     Route::get('cities_column','CityApiController@citiesColumn')->name('cities_column');
+    Route::get('cities_column_table_select','CityApiController@citiesColumnTableSelect')->name('cities_column_table_select');
 });
