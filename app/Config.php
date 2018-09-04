@@ -7,6 +7,13 @@ use App\Http\Controllers\Controller;
 
 class Config extends Controller
 {
+    //content-type
+    public static $content_type = [
+        'json'=>'application/json',
+        'sql'=>'application/sql',
+        'xls'=>'application/xls',
+    ];
+
     //国家体制
     public static $state_systems = [
         1 => "奴隶制",

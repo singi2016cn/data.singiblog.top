@@ -15,7 +15,7 @@ class CreateProvinceTable extends Migration
     {
         Schema::create('province', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('country_id')->unique()->comment('国家id');
+            $table->unsignedInteger('country_id')->comment('国家id');
             $table->unsignedInteger('region_id')->comment('地理大区id')->nullable();
             $table->string('name')->comment('名称');
             $table->string('code')->comment('代码')->nullable();

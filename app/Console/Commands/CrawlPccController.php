@@ -24,7 +24,7 @@ class CrawlPccController extends Command
      *
      * @var string
      */
-    protected $description = 'crawl privince,city,county from web';
+    protected $description = 'crawl province,city,county from http://www.mca.gov.cn';
 
     /**
      * Create a new command instance.
