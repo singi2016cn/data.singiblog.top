@@ -15,6 +15,7 @@ Route::group([
     $router->resource('province', 'ProvinceController');
     $router->resource('city', 'CityController');
     $router->resource('county', 'CountyController');
+    $router->resource('street', 'StreetController');
 
 });
 
@@ -25,4 +26,6 @@ Route::middleware(['web','admin'])->name('admin.api.')->prefix('admin/api')->nam
     Route::get('provinces_column_table_select','ProvinceApiController@provincesColumnTableSelect')->name('provinces_column_table_select');
     Route::get('cities_column','CityApiController@citiesColumn')->name('cities_column');
     Route::get('cities_column_table_select','CityApiController@citiesColumnTableSelect')->name('cities_column_table_select');
+    Route::get('counties_column','CountyApiController@countiesColumn')->name('counties_column');
+    Route::get('counties_column_table_select','CountyApiController@countiesColumnTableSelect')->name('counties_column_table_select');
 });

@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Models\County;
 use App\Models\Street;
 
 use Encore\Admin\Form;
@@ -75,8 +76,17 @@ class StreetController extends Controller
 
             $grid->id('ID')->sortable();
 
+            $grid->column('county.name','县');
+            $grid->column('name','名称');
+            $grid->column('code','代码');
+
             $grid->created_at();
-            $grid->updated_at();
+
+            $grid->filter(function($filter){
+                $filter->equal('county_id')->select('/admin/api/counties_column_table_select');
+                $filter->like('name');
+                $filter->equal('code');
+            });
         });
     }
 
@@ -90,6 +100,15 @@ class StreetController extends Controller
         return Admin::form(Street::class, function (Form $form) {
 
             $form->display('id', 'ID');
+
+            $form->select('county_id','县')->options(function($id){
+                $item = County::find($id);
+                if ($item){
+                    return [$item->id,$item->name];
+                }
+            })->ajax('/admin/api/counties_column');
+            $form->text('name','名称');
+            $form->text('code','代码');
 
             $form->display('created_at', 'Created At');
             $form->display('updated_at', 'Updated At');
