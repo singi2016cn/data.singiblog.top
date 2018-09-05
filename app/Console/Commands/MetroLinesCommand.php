@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Goutte\Client;
-use App\Models\MetroLine;
+use App\Models\MetroLines;
 use App\Models\City;
 
 class MetroLinesCommand extends Command
@@ -20,7 +20,7 @@ class MetroLinesCommand extends Command
      *
      * @var string
      */
-    protected $description = 'crawl metro-lines';
+    protected $description = 'crawl metro-lines from http://www.szmc.net/ver2/operating/search';
     /**
      * Create a new command instance.
      *
@@ -42,7 +42,7 @@ class MetroLinesCommand extends Command
         $client2 = new Client();
         $crawler2 = $client2->request('GET', parse_url($file,PHP_URL_SCHEME).'://'.parse_url($file,PHP_URL_HOST));
         $city_name = str_replace('地铁','',$crawler2->filter('title')->text('content'));
-        $city_id = Cities::where('name','like',"%".$city_name."%")->value('id');
+        $city_id = City::where('name','like',"%".$city_name."%")->value('id');
         $client = new Client();
         $crawler = $client->request('GET', $file);
         $metro_lines = $crawler->filter('#content ul>li>a')->each(function ($node) use ($city_id) {

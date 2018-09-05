@@ -8,7 +8,7 @@ use App\Models\City;
 use App\Models\County;
 use App\Models\Street;
 
-class CrawlStreetController extends Command
+class CstreetCommand extends Command
 {
     /**
      * The name and signature of the console command.

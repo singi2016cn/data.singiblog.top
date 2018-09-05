@@ -17,6 +17,10 @@ Route::group([
     $router->resource('county', 'CountyController');
     $router->resource('street', 'StreetController');
 
+    $router->resource('metro_lines', 'MetroLinesController');
+    $router->resource('metro_stations', 'MetroStationsController');
+    $router->resource('metro_station_exits', 'MetroStationExitsController');
+
 });
 
 Route::middleware(['web','admin'])->name('admin.api.')->prefix('admin/api')->namespace('App\Admin\Apis')->group(function(){

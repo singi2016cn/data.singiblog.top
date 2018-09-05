@@ -6,7 +6,7 @@ use Illuminate\Console\Command;
 use Goutte\Client;
 use GuzzleHttp\Client as GuzzleClient;
 
-class CrawlCountryCommand extends Command
+class CCountryCommand extends Command
 {
     public $crawl_url = '';
 

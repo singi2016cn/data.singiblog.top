@@ -10,7 +10,7 @@ use App\Models\City;
 use App\Models\County;
 use Overtrue\LaravelPinyin\Facades\Pinyin;
 
-class CrawlPccController extends Command
+class CpccCommand extends Command
 {
     /**
      * The name and signature of the console command.
