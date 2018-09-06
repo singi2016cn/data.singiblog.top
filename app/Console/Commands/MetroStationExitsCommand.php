@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\MetroLines;
 use App\Models\MetroStations;
 use App\Models\MetroStationsExits;
 use Illuminate\Console\Command;
@@ -44,9 +45,11 @@ class MetroStationExitsCommand extends Command
         $this->info('start');
         $client = new Client();
         $metro_stations = MetroStations::all();
-        foreach($metro_stations as $metro_station){
+        foreach($metro_stations as $k=>$metro_station){
+            $metro_line_code = MetroLines::where('id',$metro_station->metro_line_id)->value('code');
+            $xl = $metro_line_code[1];
             $this->info('--- station:'.$metro_station->name.':'.$metro_station->id.' ---');
-            $url = 'http://www.szmc.net/ver2/operating/search?scode='.$metro_station->code.'&xl='.$metro_station->metro_line_id;
+            $url = 'http://www.szmc.net/ver2/operating/search?scode='.$metro_station->code.'&xl='.$xl;
             $this->info($url);
             $crawler = $client->request('GET', $url);
             $metro_station_exits_name = $crawler->filter('.gate_right tbody>tr>th')->each(function ($node) {
@@ -56,7 +59,7 @@ class MetroStationExitsCommand extends Command
                 return $node->text();
             });
             foreach($metro_station_exits_name as $k=>$v){
-                $metro_station_exits['metro_station_id'] = $metro_station->id;
+                $metro_station_exits['metro_stations_id'] = $metro_station->id;
                 $name = str_replace(['出口','：',':','）','所在口',"\n","\t"],'',$v);
                 $name_arr = explode('（',$name);
                 $metro_station_exits['name'] = $name_arr[0];
@@ -69,7 +72,7 @@ class MetroStationExitsCommand extends Command
                     $metro_station_exits['has_wc'] = 1;
                 }
                 $metro_station_exits['note'] = str_replace(['出口','：',':',"\n","\t"],'',$metro_station_exits_note[$k]);
-                MetroStationsExits::updateOrCreate(['metro_station_id'=>$metro_station_exits['metro_station_id'],'name'=>$metro_station_exits['name']],$metro_station_exits);
+                MetroStationsExits::updateOrCreate(['metro_stations_id'=>$metro_station_exits['metro_stations_id'],'name'=>$metro_station_exits['name']],$metro_station_exits);
                 $this->info('insert '.$metro_station_exits['name']);
             }
         }

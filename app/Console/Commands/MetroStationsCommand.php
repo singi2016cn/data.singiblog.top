@@ -54,8 +54,8 @@ class MetroStationsCommand extends Command
         $sites = array_filter($sites);
         foreach($sites as $k=>$site){
             $site_line = $site_lines[$k];
-            $metro_station['metro_line_id'] = MetroLines::where('name',$site_line)->value('id');
-            $this->info('--- metro-line:'.$site_line.$metro_station['metro_line_id'].' ---');
+            $metro_station['metro_lines_id'] = MetroLines::where('name',$site_line)->value('id');
+            $this->info('--- metro-line:'.$site_line.$metro_station['metro_lines_id'].' ---');
             foreach($site as $v){
                 $metro_station['name'] = $v['n'];
                 $metro_station['code'] = $v['c'];

@@ -17,4 +17,9 @@ class City extends Model
     {
         return $this->hasMany(County::class);
     }
+
+    public function metroLines()
+    {
+        return $this->hasMany(MetroLines::class);
+    }
 }

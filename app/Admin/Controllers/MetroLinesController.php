@@ -10,6 +10,7 @@ use Encore\Admin\Facades\Admin;
 use Encore\Admin\Layout\Content;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
+use App\Models\City;
 
 class MetroLinesController extends Controller
 {
@@ -75,8 +76,17 @@ class MetroLinesController extends Controller
 
             $grid->id('ID')->sortable();
 
+            $grid->column('city_name','城市');
+            $grid->column('name','名称');
+            $grid->column('code','代码');
+
             $grid->created_at();
-            $grid->updated_at();
+
+            $grid->filter(function ($filter){
+                $filter->equal('city_name','城市');
+                $filter->like('name');
+                $filter->equal('code');
+            });
         });
     }
 
@@ -90,6 +100,10 @@ class MetroLinesController extends Controller
         return Admin::form(MetroLines::class, function (Form $form) {
 
             $form->display('id', 'ID');
+
+            $form->text('city_name','城市');
+            $form->text('name','名称');
+            $form->text('code','代码');
 
             $form->display('created_at', 'Created At');
             $form->display('updated_at', 'Updated At');

@@ -39,24 +39,21 @@ class MetroLinesCommand extends Command
     {
         $file = $this->argument('url') ? $this->argument('url') : 'http://www.szmc.net/ver2/operating/search';
         $this->info("开始从网页[$file]获取数据...");
-        $client2 = new Client();
-        $crawler2 = $client2->request('GET', parse_url($file,PHP_URL_SCHEME).'://'.parse_url($file,PHP_URL_HOST));
-        $city_name = str_replace('地铁','',$crawler2->filter('title')->text('content'));
-        $city_id = City::where('name','like',"%".$city_name."%")->value('id');
+        $city_name = '深圳市';
         $client = new Client();
         $crawler = $client->request('GET', $file);
-        $metro_lines = $crawler->filter('#content ul>li>a')->each(function ($node) use ($city_id) {
+        $metro_lines = $crawler->filter('#content ul>li>a')->each(function ($node) use ($city_name) {
             $metro_line['name'] = $node->text();
             $query = explode('&',parse_url($node->attr('href'),PHP_URL_QUERY));
             $metro_line['code'] = explode('=',$query[0])[1];
-            $metro_line['city_id'] = $city_id;
+            $metro_line['city_name'] = $city_name;
             return $metro_line;
         });
         if ($metro_lines){
             $this->info("获取数据成功,将写入数据库");
             $bar = $this->output->createProgressBar(count($metro_lines));
             foreach($metro_lines as $metro_line){
-                MetroLines::firstOrCreate($metro_line);
+                MetroLines::UpdateOrCreate(['city_name'=>$city_name,'name'=>$metro_line['name']],$metro_line);
                 $bar->advance();
             }
             $bar->finish();

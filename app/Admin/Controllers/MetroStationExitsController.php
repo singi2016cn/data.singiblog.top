@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Models\MetroStations;
 use App\Models\MetroStationsExits;
 
 use Encore\Admin\Form;
@@ -11,7 +12,7 @@ use Encore\Admin\Layout\Content;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
 
-class MetroStationsExitsController extends Controller
+class MetroStationExitsController extends Controller
 {
     use ModelForm;
 
@@ -75,8 +76,17 @@ class MetroStationsExitsController extends Controller
 
             $grid->id('ID')->sortable();
 
+            $grid->column('metroStations.name','地铁站点');
+            $grid->column('name','名称');
+            $grid->column('note','备注');
+
             $grid->created_at();
-            $grid->updated_at();
+
+            $grid->filter(function($filter){
+                $filter->equal('metro_station_id')->select('/admin/api/metro_stations_column_table_select');
+                $filter->like('name');
+                $filter->equal('code');
+            });
         });
     }
 
@@ -90,6 +100,15 @@ class MetroStationsExitsController extends Controller
         return Admin::form(MetroStationsExits::class, function (Form $form) {
 
             $form->display('id', 'ID');
+
+            $form->select('metro_stations_id','地铁站点')->options(function($id){
+                $item = MetroStations::find($id);
+                if ($item){
+                    return [$item->id=>$item->name];
+                }
+            })->ajax('/admin/api/metro_stations_column');
+            $form->text('name','名称');
+            $form->text('note','备注');
 
             $form->display('created_at', 'Created At');
             $form->display('updated_at', 'Updated At');

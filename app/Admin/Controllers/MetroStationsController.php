@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Models\MetroLines;
 use App\Models\MetroStations;
 
 use Encore\Admin\Form;
@@ -75,8 +76,17 @@ class MetroStationsController extends Controller
 
             $grid->id('ID')->sortable();
 
+            $grid->column('metroLines.name','地铁线路');
+            $grid->column('name','名称');
+            $grid->column('code','代码');
+
             $grid->created_at();
-            $grid->updated_at();
+
+            $grid->filter(function($filter){
+                $filter->equal('metro_lines_id')->select('/admin/api/metro_lines_column_table_select');
+                $filter->like('name');
+                $filter->equal('code');
+            });
         });
     }
 
@@ -90,6 +100,15 @@ class MetroStationsController extends Controller
         return Admin::form(MetroStations::class, function (Form $form) {
 
             $form->display('id', 'ID');
+
+            $form->select('metro_lines_id','地铁线路')->options(function($id){
+                $item = MetroLines::find($id);
+                if ($item){
+                    return [$item->id=>$item->name];
+                }
+            })->ajax('/admin/api/metro_lines_column');
+            $form->text('name','名称');
+            $form->text('code','代码');
 
             $form->display('created_at', 'Created At');
             $form->display('updated_at', 'Updated At');

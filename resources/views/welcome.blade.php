@@ -80,6 +80,7 @@
 
                 <div class="links">
                     <a href="{{ route('frontend.index') }}">Home</a>
+                    <a href="{{ url('admin') }}">Admin</a>
                     <a href="https://github.com/singi2016cn/data.singiblog.top">GitHub</a>
                 </div>
             </div>

@@ -15,7 +15,7 @@ class CreateMetroLinesTable extends Migration
     {
         Schema::create('metro_lines', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('city_id')->comment('城市id')->nullable();
+            $table->string('city_name')->comment('城市')->nullable();
             $table->string('name')->comment('名称');
             $table->string('code')->comment('代码')->nullable();
             $table->string('alias')->comment('别名')->nullable();

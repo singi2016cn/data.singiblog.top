@@ -8,4 +8,9 @@ class MetroStationsExits extends Model
 {
     protected $table = 'metro_station_exits';
     protected $guarded = [];
+
+    public function metroStations()
+    {
+        return $this->belongsTo(MetroStations::class);
+    }
 }
