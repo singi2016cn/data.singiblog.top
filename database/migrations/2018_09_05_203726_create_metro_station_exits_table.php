@@ -15,7 +15,7 @@ class CreateMetroStationExitsTable extends Migration
     {
         Schema::create('metro_station_exits', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('metro_station_id')->comment('地铁站点id')->nullable();
+            $table->unsignedInteger('metro_stations_id')->comment('地铁站点id')->nullable();
             $table->string('name')->comment('名称');
             $table->string('note')->comment('备注')->nullable();
             $table->unsignedInteger('has_wc')->comment('厕所1有')->default(2);

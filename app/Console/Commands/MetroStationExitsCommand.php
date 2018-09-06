@@ -46,7 +46,7 @@ class MetroStationExitsCommand extends Command
         $client = new Client();
         $metro_stations = MetroStations::all();
         foreach($metro_stations as $k=>$metro_station){
-            $metro_line_code = MetroLines::where('id',$metro_station->metro_line_id)->value('code');
+            $metro_line_code = MetroLines::where('id',$metro_station->metro_lines_id)->value('code');
             $xl = $metro_line_code[1];
             $this->info('--- station:'.$metro_station->name.':'.$metro_station->id.' ---');
             $url = 'http://www.szmc.net/ver2/operating/search?scode='.$metro_station->code.'&xl='.$xl;

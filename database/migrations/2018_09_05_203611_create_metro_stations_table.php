@@ -15,7 +15,7 @@ class CreateMetroStationsTable extends Migration
     {
         Schema::create('metro_stations', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('metro_line_id')->comment('地铁线路id')->nullable();
+            $table->unsignedInteger('metro_lines_id')->comment('地铁线路id')->nullable();
             $table->string('name')->comment('名称');
             $table->string('code')->comment('代码')->nullable();
             $table->timestamps();

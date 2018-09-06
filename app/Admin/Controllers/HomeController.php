@@ -4,6 +4,9 @@ namespace App\Admin\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Country;
+use App\Models\MetroLines;
+use App\Models\MetroStations;
+use App\Models\MetroStationsExits;
 use App\Models\Province;
 use App\Models\City;
 use App\Models\County;
@@ -34,6 +37,12 @@ class HomeController extends Controller
                     $data['县'] = County::count();
                     $data['街道'] = Street::count();
                     $column->append(view('backend.box')->with('title','国家省市县街道')->with('data',$data));
+                });
+                $row->column(4, function (Column $column) {
+                    $data['地铁线路'] = MetroLines::count();
+                    $data['地铁站点'] = MetroStations::count();
+                    $data['地铁站点出口'] = MetroStationsExits::count();
+                    $column->append(view('backend.box')->with('title','地铁')->with('data',$data));
                 });
             });
 
