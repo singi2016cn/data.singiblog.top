@@ -4,6 +4,9 @@ namespace App\Console\Commands;
 
 use App\Models\City;
 use App\Models\County;
+use App\Models\MetroLines;
+use App\Models\MetroStations;
+use App\Models\MetroStationsExits;
 use App\Models\Province;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
@@ -49,6 +52,7 @@ class OutputController extends Command
         $this->output_path = 'public/output'.DIRECTORY_SEPARATOR.$type.DIRECTORY_SEPARATOR;
 
         $this->info($type.' file output start!');
+
         switch ($type){
             case 'pcc':
                 $provinces = Province::select('id','name','code','initial')->get();
@@ -67,28 +71,59 @@ class OutputController extends Command
                     }
                 }
                 if ($this->option('json')){
-                    Storage::put($this->output_path.$this->file_name, json_encode($provinces));
-                    $this->info('file output into '.$this->output_path.$this->file_name.' success');
+                    $this->outJson($provinces);
                 }
                 if ($this->option('sql')){
-                    $DB_HOST = getenv('DB_HOST');
-                    $DB_DATABASE = getenv('DB_DATABASE');
-                    $DB_USERNAME = getenv('DB_USERNAME');
-                    $DB_PASSWORD = getenv('DB_PASSWORD');
-
-                    $dumpfname = storage_path('app/'.$this->output_path) . date('Y').".sql";
-                    $command = "mysqldump --add-drop-table --host=$DB_HOST --user=$DB_USERNAME ";
-                    if ($DB_PASSWORD) $command.= "--password=". $DB_PASSWORD ." ";
-                    $command.= $DB_DATABASE;
-                    $command.= ' province city county ';
-                    $command.= " > " . $dumpfname;
-                    system($command);
-                    $this->info('file output into '.$dumpfname.' success');
+                    $this->outSql(['province','city','county']);
                 }
 
+                break;
+            case 'metro':
+                $metro_lines = MetroLines::select('id','city_name','name')->get();
+                if ($metro_lines){
+                    foreach($metro_lines as &$metro_line){
+                        $metro_stations = MetroStations::select('id','metro_lines_id','name')->where('metro_lines_id',$metro_line->id)->get();
+                        if ($metro_stations){
+                            $metro_line['metro_stations'] = $metro_stations;
+                            foreach($metro_stations as &$metro_station){
+                                $metro_station_exits = MetroStationsExits::select('id','metro_stations_id','name')->where('metro_stations_id',$metro_station->id)->get();
+                                if ($metro_station_exits){
+                                    $metro_station['metro_station_exits'] = $metro_station_exits;
+                                }
+                            }
+                        }
+                    }
+                }
+                if ($this->option('json')){
+                    $this->outJson($metro_lines);
+                }
+                if ($this->option('sql')){
+                    $this->outSql(['metro_lines','metro_stations','metro_station_exits']);
+                }
                 break;
             default:
 
         }
+    }
+
+    private function outJson($data){
+        Storage::put($this->output_path.$this->file_name, json_encode($data));
+        $this->info('file output into '.$this->output_path.$this->file_name.' success');
+    }
+
+    private function outSql($tables){
+        $DB_HOST = getenv('DB_HOST');
+        $DB_DATABASE = getenv('DB_DATABASE');
+        $DB_USERNAME = getenv('DB_USERNAME');
+        $DB_PASSWORD = getenv('DB_PASSWORD');
+
+        $dumpfname = storage_path('app/'.$this->output_path) . date('Y').".sql";
+        $command = "mysqldump --add-drop-table --host=$DB_HOST --user=$DB_USERNAME ";
+        if ($DB_PASSWORD) $command.= "--password=". $DB_PASSWORD ." ";
+        $command.= $DB_DATABASE;
+        $command.= ' '.implode(' ',$tables).' ';
+        $command.= " > " . $dumpfname;
+        system($command);
+        $this->info('file output into '.$dumpfname.' success');
     }
 }
