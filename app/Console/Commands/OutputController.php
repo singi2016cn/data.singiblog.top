@@ -86,7 +86,7 @@ class OutputController extends Command
                         if ($metro_stations){
                             $metro_line['metro_stations'] = $metro_stations;
                             foreach($metro_stations as &$metro_station){
-                                $metro_station_exits = MetroStationsExits::select('id','metro_stations_id','name')->where('metro_stations_id',$metro_station->id)->get();
+                                $metro_station_exits = MetroStationsExits::select('id','metro_stations_id','name','has_wc','has_elevator')->where('metro_stations_id',$metro_station->id)->get();
                                 if ($metro_station_exits){
                                     $metro_station['metro_station_exits'] = $metro_station_exits;
                                 }
