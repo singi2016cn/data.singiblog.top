@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Airports;
 use App\Models\City;
 use App\Models\County;
 use App\Models\MetroLines;
@@ -99,6 +100,15 @@ class OutputController extends Command
                 }
                 if ($this->option('sql')){
                     $this->outSql(['metro_lines','metro_stations','metro_station_exits']);
+                }
+                break;
+            case 'airport':
+                $airports = Airports::select('id','city_name','name')->get();
+                if ($this->option('json')){
+                    $this->outJson($airports);
+                }
+                if ($this->option('sql')){
+                    $this->outSql(['airports']);
                 }
                 break;
             default:

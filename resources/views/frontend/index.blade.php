@@ -23,6 +23,16 @@
                     </div>
                 </div>
             </div>
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">中国城市机场数据</div>
+
+                    <div class="panel-body">
+                        <a class="btn btn-success" href="{{ route('frontend.download',['type'=>'airport']) }}"><code>JSON</code>格式下载</a>
+                        <a class="btn btn-danger" href="{{ route('frontend.download',['type'=>'airport','data_type'=>'sql']) }}"><code>SQL</code>格式下载</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 @endsection
