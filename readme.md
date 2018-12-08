@@ -27,6 +27,17 @@
 
 1. 中国省市县`+`
 
+# 本地开发
+
+```
+1. git clone
+2. copy .env.example .env //修改成本地配置
+2. composer install
+3. php artisan key:g
+4. php artisan migrate
+```
+
+
 # License
 
 Ludata licensed under the MIT license.
