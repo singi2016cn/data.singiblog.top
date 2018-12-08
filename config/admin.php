@@ -42,7 +42,7 @@ return [
     /*
      * Use `https`.
      */
-    'secure' => false,
+    'secure' => true,
 
     /*
      * Laravel-admin auth setting.
@@ -156,6 +156,6 @@ return [
      * Settings for extensions.
      */
     'extensions' => [
-
+        'disk' => 'public'   // 指向config/filesystem.php中设置的disk
     ],
 ];

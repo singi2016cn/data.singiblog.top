@@ -104,7 +104,7 @@ class CountyController extends Controller
             $form->select('city_id','市')->options(function($id){
                 $item = City::find($id);
                 if ($item){
-                    return [$item->id,$item->name];
+                    return [$item->id=>$item->name];
                 }
             })->ajax('/admin/api/cities_column');
             $form->text('name','名称');
